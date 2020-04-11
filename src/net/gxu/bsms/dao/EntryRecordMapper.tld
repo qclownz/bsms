@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="net.gxu.bsms.dao.EntryRecordMapper">
+
+    <resultMap id="entryRecord" type="net.gxu.bsms.entity.EntryRecord">
+        <!--指定主键列的封装规则
+        id定义主键会底层有优化；
+        column：指定哪一列
+        property：指定对应的javaBean属性
+          -->
+        <id column="e_id" property="id"/>
+        <!-- 定义普通列封装规则 -->
+        <result column="e_date" property="date"/>
+        <result column="b_id" property="bookId"/>
+        <result column="e_amount" property="amount"/>
+        <!-- 其他不指定的列会自动封装：我们只要写resultMap就把全部的映射规则都写上。 -->
+    </resultMap>
+
+    <select id="getEntryRecordInAllTime" resultMap="entryRecord">
+        select  * from `entryrecordqz`
+        <if test="bookId != -1">
+            where b_id = #{bookId}
+        </if>
+    </select>
+
+    <select id="getEntryRecordInMouth" resultMap="entryRecord">
+        select  * from `entryrecordqz` where DATE_SUB(CURDATE(), INTERVAL 30 DAY) &lt;= e_date
+        <if test="bookId != -1">
+            and b_id = #{bookId}
+        </if>
+    </select>
+
+    <select id="getEntryRecordInWeek" resultMap="entryRecord">
+        select  * from `entryrecordqz` where DATE_SUB(CURDATE(), INTERVAL 7 DAY) &lt;= e_date
+        <if test="bookId != -1">
+            and b_id = #{bookId}
+        </if>
+    </select>
+
+    <select id="getEntryRecordInDay" resultMap="entryRecord">
+        select  * from `entryrecordqz` WHERE TO_DAYS(NOW()) - TO_DAYS(e_date) = 0
+        <if test="bookId != -1">
+            and b_id = #{bookId}
+        </if>
+    </select>
+
+    <insert id="addEntryRecord">
+        insert into entryrecordqz(b_id, e_amount) values(#{bookId}, #{amount});
+    </insert>
+
+    <delete id="deleteEntryRecordById">
+        delete from `entryrecordqz` where e_id = #{entryRecordId}
+    </delete>
+</mapper>

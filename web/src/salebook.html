@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>出售图书</title>
+    <script src="../js-css/jquery-3.4.1.js"></script>
+    <script src="../js-css/salebook.js"></script>
+    <style>
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+        body{
+            background:cornsilk url("../img/back2.png");
+            text-align: center;
+        }
+        .header{
+            margin-top: 12%;
+        }
+        input{
+            font-size:15px ;
+            width: 350px;
+            height: 30px;
+            margin-top:10px ;
+        }
+        a{
+            text-decoration: none;
+            color: #000;
+        }
+        select{
+            width:150px;
+            height: 25px;
+        }
+        .middle{
+            margin-top: 10px;
+        }
+        #saleBookBtn{
+            width: 250px;
+            background-color: #ff7171;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <form id="saleBookForm" action="/bsms/book/sale" method="post">
+            <input type="text" id="bookId" name="bookId" placeholder="请输入书籍编号"><br>
+            <input type="text" name="amount" placeholder="请输入书籍数量"><br>
+            <input type="text" id ="memberId" name="memberId" placeholder="请输入会员编号"><br>
+            <div class="middle">
+                <select name="need">
+                    <option value="0">非会员购买</option>
+                    <option value="1">会员购买</option>
+                </select>
+                <a href="./member.html" target="_blank">不是会员?点击注册会员</a>
+            </div>
+        </form>
+        <input id="saleBookBtn" type="button" value="确定">
+    </div>
+</body>
+</html>

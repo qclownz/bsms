@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>会员管理</title>
+    <link rel="stylesheet" href="../js-css/jquery-ui.min.css">
+    <link rel="stylesheet" href="../js-css/style.css">
+    <style type="text/css">
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+        body{
+            background:cornsilk url("../img/back2.png");
+        }
+        /*上部分的样式*/
+        .top{
+            margin-left: 40px;
+            margin-top: 5px;
+        }
+        .top input{
+            width: 200px;
+            height: 20px;
+        }
+        select{
+            width: 120px;
+            height: 23px;
+            margin-top: 1px;
+        }
+        form{
+            display: inline-block;
+        }
+        #selectMember,#addMember,.updateMemberBtn,.deleteMemberBtn{
+            width:80px;
+            background-color: #ff7171;
+            border: #e6e6e6 solid 1px;
+            height: 24px;
+        }
+        .updateMemberBtn,.deleteMemberBtn{
+            width: 40px;
+        }
+        /*下部分样式*/
+        table{
+            width:1280px;
+            margin-top:10px;
+        }
+        table th{
+            font-size: 18px;
+        }
+        table th,td{
+            border: #ff7171 solid 1px;
+            width:185px;
+            height:30px;
+        }
+        table td{
+            font-size: 14px;
+            text-align: center;
+        }
+        /*编辑框的样式*/
+        #dialog-form{
+            width: 550px;
+            height: 450px;
+        }
+        #dialog-form input{
+            width: 250px;
+            height: 30px;
+            font-size: 16px;
+        }
+        label{
+            font-size: 18px;
+        }
+    </style>
+    <script src="../js-css/jquery-3.4.1.js"></script>
+    <script src="../js-css/jquery-ui.min.js"></script>
+    <script src="../js-css/member.js"></script>
+    <script>
+        $(function() {
+            var allFields = $([]),
+                tips = $(".validateTips");
+            function updateTips( t ) {
+                tips.text(t).addClass("ui-state-highlight");
+                setTimeout(function() {
+                    tips.removeClass( "ui-state-highlight", 1500 );
+                }, 500 );
+            }
+            $("#dialog-form").dialog({
+                autoOpen: false,
+                height: 350,
+                width: 350,
+                modal: true,
+                buttons: {
+                    "确定更改": function() {
+                        var targetUrl = $("#updateMemberForm").attr("action");
+                        var method = $("#updateMemberForm").attr("method");
+                        var data = $("#updateMemberForm").serializeArray();
+                        var flag = true, i;
+                        for (i=0; i < data.length; i++) {
+                            if (data[i].value.replace(/(^\s*)|(\s*$)/g, "") == '') {
+                                alert("会员信息字段值不能为空!");
+                                flag = false;
+                                break;
+                            };
+                        }
+                        if (flag) {
+                            data = $("#updateMemberForm").serialize();
+                            $.ajax({
+                                type:method,
+                                url:targetUrl,
+                                cache: false,
+                                data:data,
+                                dataType:'text',
+                                success:function(data){
+                                    if (data == '0')
+                                        alert("修改会员信息失败!");
+                                    else if (data == '1'){
+                                        alert("修改会员信息成功!");
+                                        $("#dialog-form").dialog("close");
+                                    }
+                                },
+                                error:function(){
+                                    alert("请求失败!")
+                                }
+                            });
+                        }
+
+
+
+                    },
+                    Cancel: function() {
+                        $(this).dialog("close");
+                    }
+                },
+                close: function() {
+                    allFields.val("").removeClass( "ui-state-error" );
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="top">
+    <div class="sou">
+        <form id="selectMemberForm" action="/bsms/member/select" method="get">
+            <input type="text" name="memberSelectInfo" placeholder="请输入查询信息">
+            <select name="need">
+                <option value="0">按会员卡号查询</option>
+                <option value="1">按会员姓名查询</option>
+                <option value="2">按会员电话查询</option>
+                <option value="3">查询所有会员</option>
+            </select>
+        </form>
+        <input type="button" value="查询会员" id="selectMember">
+    </div>
+
+    <div class="second">
+
+            <form id="addMemberForm" action="/bsms/member/add" method="post">
+                <input type="text" name="memberName" placeholder="请输入会员姓名">
+                <input type="text" name="memberTel" placeholder="请输入会员号码">
+                <input type="text" name="memberDiscount"  placeholder="请输入会员折扣" value="0.95">
+            </form>
+            <input type="button" value="新增会员" id="addMember">
+        </div>
+
+    </div>
+        <table cellspacing="0" cellpadding="0" id="membersTable">
+            <tr>
+                <th >会员卡号</th>
+                <th>会员姓名</th>
+                <th>会员折扣</th>
+                <th>会员电话</th>
+                <th>注册时间</th>
+                <th>操作</th>
+            </tr>
+<!--            <tr>-->
+<!--                <td>00000</td>-->
+<!--                <td>张三</td>-->
+<!--                <td>0.95</td>-->
+<!--                <td>12245425</td>-->
+<!--                <td>2019年11月12日</td>-->
+<!--                <td>-->
+<!--                    <input class="updateMemberBtn" type="button" value="编辑">-->
+<!--                    <input class="deleteMemberBtn" type="button" value="删除">-->
+<!--                </td>-->
+<!--            </tr>-->
+        </table>
+    <div id="dialog-form" title="更改会员信息">
+        <form id="updateMemberForm" action="/bsms/member/update" method="post">
+            <label>会员编号</label><br>
+            <input type="text" name="memberId" id="nmemberId" class="text ui-widget-content ui-corner-all"><br>
+            <label>会员姓名</label><br>
+            <input type="text" name="memberName" id="nmemberName" class="text ui-widget-content ui-corner-all"><br>
+            <label>会员折扣</label><br>
+            <input type="text" name="memberDiscount" id="nmemberDiscount" class="text ui-widget-content ui-corner-all"><br>
+            <label>会员电话</label><br>
+            <input type="text" name="memberTel" id="nmemberTel" class="text ui-widget-content ui-corner-all"><br>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="net.gxu.bsms.dao.InfoMapper">
+
+    <resultMap id="allInfo" type="net.gxu.bsms.entity.AllInfo">
+        <result column="b_kinds" property="bookKinds"/>
+        <result column="b_amounts" property="bookAmounts"/>
+        <result column="b_values" property="bookValues"/>
+        <result column="m_amounts" property="memberAmounts"/>
+        <result column="s_amounts" property="saleAmounts"/>
+        <result column="s_values" property="saleValues"/>
+    </resultMap>
+
+    <resultMap id="nowInfo" type="net.gxu.bsms.entity.NowInfo">
+        <result column="today_amounts" property="todayAmounts"/>
+        <result column="today_values" property="todayValues"/>
+        <result column="this_month_amounts" property="thisMonthAmounts"/>
+        <result column="this_month_values" property="thisMonthValues"/>
+    </resultMap>
+
+    <select id="getAllInfo" resultMap="allInfo">
+        select  * from book_info, member_info, sales_info
+    </select>
+
+    <select id="getNowInfo" resultMap="nowInfo">
+        select * from today_info, this_month_info
+    </select>
+
+</mapper>

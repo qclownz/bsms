@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="net.gxu.bsms.dao.AdminMapper">
+
+    <resultMap id="admin" type="net.gxu.bsms.entity.Admin">
+        <!--指定主键列的封装规则
+        id定义主键会底层有优化；
+        column：指定哪一列
+        property：指定对应的javaBean属性
+          -->
+        <id column="admin_name" property="name"/>
+        <!-- 定义普通列封装规则 -->
+        <result column="admin_pwd" property="password"/>
+        <!-- 其他不指定的列会自动封装：我们只要写resultMap就把全部的映射规则都写上。 -->
+    </resultMap>
+
+    <select id="getAdminByName"  resultMap="admin">
+        select * from `adminqz` where admin_name = #{name}
+    </select>
+
+    <update id="updatePwd">
+        update adminqz set admin_pwd = #{password} where admin_name = #{name}
+    </update>
+
+
+</mapper>

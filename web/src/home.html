@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>书店管理系统</title>
+    <style type="text/css">
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+        body{
+            background:cornsilk url("../img/back2.png");
+        }
+        .header{
+            background-color: #7ee2ff;
+            border: #ff7171 2px solid;
+            height: 60px;
+        }
+        .header img{
+            width: 100px;
+            float: left;
+            overflow: hidden;
+            margin-left: 20px;
+            margin-top: 5px;
+        }
+        .header ul{
+            float:right;
+            list-style: none;
+            margin-right: 20px;
+        }
+        .header li{
+            float: left;
+
+        }
+        input{
+            width: 80px;
+            margin-left: 10px;
+            font-size: 17px;
+            background-color: aliceblue;
+            border: none;
+            margin-top: 19px;
+        }
+
+        /*中间部分样式-上部*/
+        .start table{
+            margin-top:5px ;
+            border-left:#ff7171 1px solid;
+        }
+        section .start td,.middle .left li{
+            border:#ff7171 1px solid;
+            width: 330px;
+            text-align: center;
+            vertical-align: center;
+
+        }
+        section .start td{
+            border-left: none;
+            font-size: 20px;
+        }
+        section .start img{
+            width: 100px;
+            margin-top: 5px;
+        }
+
+        /*中间部分样式-左部*/
+        .left,.right{
+            display: inline-block;
+            height: 200px;
+        }
+        .left ul{
+            margin-top: 5px;
+        }
+        .middle .left li{
+            width: 202px;
+            height: 40px;
+            line-height: 40px;
+            border-bottom: none;
+            font-weight: normal;
+        }
+        .left li:last-child{
+            border-bottom:#ff7171 1px solid ;
+        }
+        /*中间样式-右边样式*/
+        .right{
+            height:200px;
+            width: 1052px;
+        }
+        .right table{
+            margin-top:11px;
+            margin-left: 6px;
+        }
+        .right td{
+            border: #ff7171 1px solid;
+            width:300px;
+            height: 203px;
+            text-align: center;
+            font-size: 36px;
+            border-left: none;
+
+        }
+        .right td:first-child{
+            border-left:#ff7171 1px solid ;
+        }
+        .right td span{
+
+            color:#ff7171;
+        }
+        footer{
+            position: fixed;
+            top: 550px;
+
+        }
+        footer div{
+            text-align: center;
+            height: 25px;
+            width: 1278px;
+            vertical-align: center;
+            font-size: 15px;
+            color: cornsilk;
+            border:#ff7171 1px solid;
+            background-color: #7ee2ff;
+        }
+        a{
+            text-decoration: none;
+            color: #000;
+        }
+    </style>
+    <script src="../js-css/jquery-3.4.1.js"></script>
+    <script src="../js-css/home.js">
+
+    </script>
+</head>
+
+<body>
+<div class="header">
+    <img src="../img/logo.png" alt="logo">
+    <ul>
+        <li> <input id="exit" type="button" name="exit" value="退出系统"></li>
+    </ul>
+</div>
+<section>
+    <div class="start">
+        <table cellspacing="0">
+            <tr>
+                <td><div class="tp"><img src="../img/Shape.png" alt=""></div>
+                    <div>管理员</div></td>
+                <td>存书种类<br><span id="bookKinds">????</span></td>
+                <td>存书数量<br><span id="bookAmounts">????</span></td>
+                <td>存书价值<br><span id="bookValues">????</span></td>
+                <td>会员总数<br><span id="memberAmounts">????</span></td>
+                <td>销售总量<br><span id="saleAmounts">????</span></td>
+                <td>销售总额<br><span id="saleValues">????</span></td>
+            </tr>
+        </table>
+    </div>
+    <div class="middle">
+        <div class="left">
+            <ul>
+                <li><a href="salebook.html">图书销售</a></li>
+                <li><a href="./book.html">图书管理</a></li>
+                <li><a href="./member.html">会员管理</a></li>
+                <li><a href="./entryrecord.html">入库记录</a></li>
+                <li><a href="./salesrecord.html">销售记录</a></li>
+            </ul>
+        </div>
+        <div class="right">
+            <table cellspacing="0">
+                <tr>
+                <td>今日销量<br><span id="todayAmounts">????</span></td>
+                <td>今日销售<br><span id="todayValues">????</span></td>
+                <td>本月销量<br><span id="thisMonthAmounts">????</span></td>
+                <td>本月销售<br><span id="thisMonthValues">????</span></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</section>
+<footer><div>欢迎使用黄金屋书店管理系统</div></footer>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>书籍管理</title>
+    <link rel="stylesheet" href="../js-css/jquery-ui.min.css">
+    <link rel="stylesheet" href="../js-css/style.css">
+    <style type="text/css">
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+        body{
+            background:cornsilk url("../img/back2.png");
+        }
+        /*搜索部分的样式*/
+        .top{
+            margin-left: 40px;
+            margin-top: 5px;
+        }
+        .top input{
+            width: 200px;
+            height: 20px;
+        }
+        select{
+            width: 120px;
+            height: 23px;
+            margin-top: 1px;
+        }
+        form{
+            display: inline-block;
+        }
+        #selectBook,#addBookAmount,#addBook,.updateBookBtn,.deleteBookBtn{
+            width: 38px;
+            background-color: #ff7171;
+            border: #e6e6e6 solid 1px;
+            height: 24px;
+        }
+
+        /*上部 第二部分的样式*/
+        #addBookAmount,#addBook{
+            width:80px;
+        }
+        /*下部 表的样式*/
+        table{
+            width:1280px;
+            margin-top:10px;
+        }
+        table th{
+            font-size: 18px;
+        }
+        table th,td{
+            border: #ff7171 solid 1px;
+            width:185px;
+            height:30px;
+        }
+        table td{
+            font-size: 14px;
+            text-align: center;
+        }
+        .updateBookBtn,.deleteBookBtn{
+            height: 25px;
+        }
+        /*编辑框的样式*/
+        #dialog-form{
+            width: 550px;
+            height: 450px;
+        }
+        #dialog-form input{
+            width: 250px;
+            height: 30px;
+            font-size: 16px;
+        }
+        label{
+            font-size: 18px;
+        }
+    </style>
+    <script src="../js-css/jquery-3.4.1.js"></script>
+    <script src="../js-css/jquery-ui.min.js"></script>
+    <script src="../js-css/book.js"></script>
+    <script>
+        $(function() {
+            var allFields = $([]),
+                tips = $(".validateTips");
+            function updateTips( t ) {
+                tips.text(t).addClass("ui-state-highlight");
+                setTimeout(function() {
+                    tips.removeClass( "ui-state-highlight", 1500 );
+                }, 500 );
+            }
+            $("#dialog-form").dialog({
+                autoOpen: false,
+                height: 400,
+                width: 400,
+                modal: true,
+                buttons: {
+                    "确定更改": function() {
+                        var targetUrl = $("#updateBookForm").attr("action");
+                        var method = $("#updateBookForm").attr("method")
+                        var data = $("#updateBookForm").serializeArray();
+                        var flag = true, i;
+                        for (i=0; i < data.length; i++) {
+                            if (data[i].value.replace(/(^\s*)|(\s*$)/g, "") == '') {
+                                alert("书籍信息字段值不能为空!");
+                                flag = false;
+                                break;
+                            };
+                        }
+                        if (flag) {
+                            data = $("#updateBookForm").serialize();
+                            $.ajax({
+                                type:method,
+                                url:targetUrl,
+                                cache: false,
+                                data:data,
+                                dataType:'text',
+                                success:function(data){
+                                    if (data == '0')
+                                        alert("修改图书信息失败!");
+                                    else if (data == '1'){
+                                        alert("修改图书信息成功!");
+                                        $("#dialog-form").dialog("close");
+                                    }
+
+                                },
+                                error:function(){
+                                    alert("请求失败!")
+                                }
+                            });
+                        }
+                    },
+                    Cancel: function() {
+                        $(this).dialog( "close" );
+                    }
+                },
+                close: function() {
+                    allFields.val( "" ).removeClass( "ui-state-error" );
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="top">
+    <div class="sou">
+    <form id="selectBookForm" action="/bsms/book/select" method="get">
+        <input type="text" name="bookSelectInfo" placeholder="请输入查询信息">
+        <select name="need">
+            <option value="0">按书籍编号查询</option>
+            <option value="1">按书名查询</option>
+            <option value="2">按书籍作者查询</option>
+            <option value="3">按数量查询</option>
+            <option value="4">查询所有图书</option>
+        </select>
+    </form>
+    <input type="button" id="selectBook" value="查询" >
+</div>
+
+    <div class="second">
+    <form id="addBookAmountForm" action="/bsms/book/add1" method="post">
+        <input type="text" name="bookId" placeholder="请输入书籍编号">
+        <input type="text" name="amount" placeholder="请输入添加数量">
+    </form>
+    <input type="button" id="addBookAmount" value="书籍入库">
+</div>
+
+    <div class="third">
+        <form id="addBookForm" action="/bsms/book/add" method="post">
+            <input type="text" name ="bookId" placeholder="请输入书籍编号">
+            <input type="text" name ="bookName" placeholder="请输入书名">
+            <input type="text" name="bookAuthor" placeholder="请输入作者">
+            <input type="text" name="bookPublish" placeholder="请输入出版社">
+            <input type="text" name="bookPrice" placeholder="请输入书的价格">
+        </form>
+        <input type="button" id="addBook" value="新书登记" >
+    </div>
+    </div>
+
+    <table cellspacing="0" cellpadding="0" id="booksTable">
+        <tr>
+            <th >书籍编号</th>
+            <th>书名</th>
+            <th>作者</th>
+            <th>出版社</th>
+            <th>单价/(元)</th>
+            <th>库存量/(本)</th>
+            <th>操作</th>
+        </tr>
+<!--        <tr>-->
+<!--            <td>01</td>-->
+<!--            <td>《新华字典》</td>-->
+<!--            <td>中国</td>-->
+<!--            <td>新华社</td>-->
+<!--            <td>16</td>-->
+<!--            <td>100</td>-->
+<!--            <td>-->
+<!--                <input class="updateBookBtn" type="button" value="编辑">-->
+<!--                <input class="deleteBookBtn" type="button" value="删除">-->
+<!--            </td>-->
+<!--        </tr>-->
+    </table>
+
+<div id="dialog-form" title="更改书籍信息">
+    <form id="updateBookForm" action="/bsms/book/update" method="post">
+        <label>书籍编号</label><br>
+        <input type="text" name="bookId" id="nbookId" class="text ui-widget-content ui-corner-all"><br>
+        <label>书名</label><br>
+        <input type="text" name="bookName" id="nbookName" class="text ui-widget-content ui-corner-all"><br>
+        <label>作者</label><br>
+        <input type="text" name="bookAuthor" id="nbookAuthor" class="text ui-widget-content ui-corner-all"><br>
+        <label>出版社</label><br>
+        <input type="text" name="bookPublish" id="nbookPublish" class="text ui-widget-content ui-corner-all"><br>
+        <label>价格</label><br>
+        <input type="text" name="bookPrice" id="nbookPrice" class="text ui-widget-content ui-corner-all">
+    </form>
+</div>
+</body>
+</html>

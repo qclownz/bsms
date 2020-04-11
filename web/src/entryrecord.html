@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>入库记录</title>
+    <style type="text/css">
+        *{
+            margin: 0px;
+            padding: 0px;
+        }
+        body{
+            background:cornsilk url("../img/back2.png");
+        }
+        /*搜索部分的样式*/
+        .sou{
+            margin-left: 40px;
+            margin-top: 5px;
+        }
+        .sou input{
+            width: 200px;
+            height: 20px;
+        }
+        select{
+            width: 60px;
+            height: 23px;
+            margin-top: 1px;
+        }
+        form{
+            display: inline-block;
+        }
+        #selectEntryRecord,.deleteEntryRecordBtn{
+            width: 38px;
+            background-color: #ff7171;
+            border: #e6e6e6 solid 1px;
+            height: 24px;
+        }
+        /*下部 表的样式*/
+        table{
+            width:1280px;
+            margin-top:10px;
+        }
+        table th{
+            font-size: 18px;
+        }
+        table th,td{
+            border: #ff7171 solid 1px;
+            width:185px;
+            height:30px;
+        }
+        table td{
+            font-size: 14px;
+            text-align: center;
+        }
+    </style>
+    <script src="../js-css/jquery-3.4.1.js"></script>
+    <script src="../js-css/entryrecord.js"></script>
+
+</head>
+<body>
+    <div class="sou">
+        <form id="selectEntryRecordForm" action="/bsms/entryrecord/select" method="get">
+            <input name="bookId" type="text" class="info" placeholder="可输入书籍编号">
+            <select name="need">
+                <option value="3">今天</option>
+                <option value="2">近七天</option>
+                <option value="1">近一个月</option>
+                <option value="0">所有时间</option>
+            </select>
+        </form>
+        <input id="selectEntryRecord" type="button" class="cha" value="查询">
+    </div>
+
+
+    </div>
+        <table cellspacing="0" cellpadding="0" id="entryRecordTable">
+            <tr>
+                <th>入库编号</th>
+                <th>入库时间</th>
+                <th>书籍编号</th>
+                <th>书籍数量</th>
+                <th>操作</th>
+            </tr>
+<!--            <tr>-->
+<!--                <td>00001</td>-->
+<!--                <td>2019年11月12日</td>-->
+<!--                <td>3444</td>-->
+<!--                <td>1234</td>-->
+<!--                <td>-->
+<!--                    <input class="deleteEntryRecordBtn" type="button" value="删除">-->
+<!--                </td>-->
+<!--            </tr>-->
+        </table>
+    </div>
+</body>
+</html>

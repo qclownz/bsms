@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录界面</title>
+    <style type="text/css">
+        body{
+            background:cornsilk url("../img/back2.png");
+        }
+        img{
+            width: 250px;
+            margin-left: 510px;
+            margin-top: 100px;
+        }
+        input{
+            font-size:15px ;
+            width: 250px;
+            height: 25px;
+            margin-top:15px ;
+
+        }
+        #btn{
+            margin-top: 15px;
+            width: 100px;
+            height:30px;
+            color: aliceblue;
+            background-color: brown;
+            border: none;
+        }
+        .er{
+            color: red;
+        }
+    </style>
+
+    <script src="../js-css/jquery-3.4.1.js"></script> <!-引入本地jquery文件-->
+    <script>$(document).ready(function(){
+        $("button").click(function(){
+            var usename = $("#useName").val();
+            var usepwd = $("#usePwd").val();
+            $.post("/bsms/login", {usename:usename, usepwd:usepwd}
+                    , function(data){
+                    if (data == '-1') {
+                        alert("该账号不存在!");
+                    } else if (data == '0') {
+                        alert("密码错误!");
+                    } else {
+                        location.replace("./home.html");
+                    }
+            });
+        });
+    });</script>
+</head>
+<body>
+    <img src="../img/logo.png">
+    <h4 id="myDiv"></h4>
+<div style="text-align: center;">
+    <input id="useName" type="text" name="useName" value="" placeholder="请输入您的账号">
+    <span id="s_usename" class="er"></span><br>
+    <input id="usePwd" type="password" name="usePwd" value="" placeholder="请输入系统密码">
+    <span id="s_password" class="er"></span><br>
+    <button id="btn">确定</button>
+</div>
+</body>
+</html>
+
+</html>

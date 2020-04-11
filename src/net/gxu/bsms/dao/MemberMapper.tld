@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.gxu.bsms.dao.MemberMapper">
+
+    <resultMap id="member" type="net.gxu.bsms.entity.Member">
+        <id column="m_id" property="id"/>
+        <result column="m_discount" property="discount"/>
+        <result column="m_name" property="name"/>
+        <result column="m_tel" property="tel"/>
+        <result column="m_date" property="date"/>
+    </resultMap>
+
+    <select id="getMemberById"  resultMap="member">
+        select * from `memberqz` where m_id = #{id}
+    </select>
+
+    <select id="getMembersByName" resultMap="member">
+        select * from `memberqz` where m_name like concat("%", #{name}, "%")
+    </select>
+
+    <select id="getMemberByTel" resultMap="member">
+        select * from `memberqz` where m_tel = #{tel} limit 1
+    </select>
+
+    <select id="getAllMembers"  resultMap="member">
+        select * from `memberqz`
+    </select>
+
+    <insert id="addMember">
+        insert into memberqz(m_name, m_discount, m_tel) values(#{name}, #{discount}, #{tel});
+    </insert>
+
+    <update id="updateMemberById">
+        update memberqz set m_name = #{name}, m_discount = #{discount}, m_tel = #{tel} where m_id = #{id}
+    </update>
+
+    <delete id="deleteMemberById">
+        delete from memberqz where m_id = #{id}
+    </delete>
+</mapper>

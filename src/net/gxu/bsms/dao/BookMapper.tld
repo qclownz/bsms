@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.gxu.bsms.dao.BookMapper">
+
+    <resultMap id="book" type="net.gxu.bsms.entity.Book">
+        <id column="b_id" property="id"/>
+        <result column="b_name" property="name"/>
+        <result column="b_author" property="author"/>
+        <result column="b_publish" property="publish"/>
+        <result column="b_price" property="price"/>
+        <result column="b_amount" property="amount"/>
+    </resultMap>
+
+    <select id="getBookById"  resultMap="book">
+        select * from `bookqz` where b_id = #{id}
+    </select>
+
+    <select id="getBooksByName" resultMap="book">
+        select * from `bookqz` where b_name like concat("%", #{name}, "%")
+    </select>
+
+    <select id="getBooksByAmount" resultMap="book">
+        select * from `bookqz` where b_amount &lt;= #{amount}
+    </select>
+
+    <select id="getBooksByAuthor" resultMap="book">
+        select * from `bookqz` where b_author like concat("%", #{author}, "%")
+    </select>
+
+    <select id="getAllBooks"  resultMap="book">
+        select * from `bookqz`
+    </select>
+
+    <insert id="addBook">
+        insert into bookqz(b_id, b_name, b_author, b_publish, b_price) values(#{id}, #{name}, #{author}, #{publish}, #{price});
+    </insert>
+
+    <update id="updateBookById">
+        update bookqz set b_name = #{name}, b_author = #{author}, b_publish = #{publish}, b_price = #{price} where b_id = #{id}
+    </update>
+
+    <update id="updateBookAmountById">
+        update bookqz set b_amount = #{amount} where b_id = #{id}
+    </update>
+
+    <delete id="deleteBookById">
+        delete from bookqz where b_id = #{id}
+    </delete>
+</mapper>
